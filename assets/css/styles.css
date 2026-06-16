@@ -210,7 +210,7 @@ body.menu-open { overflow: hidden; }
 /* ============================================================
    HERO
    ============================================================ */
-.hero { position: relative; min-height: 100svh; display: flex; align-items: flex-end; color: #fff; isolation: isolate; }
+.hero { position: relative; min-height: 88svh; display: flex; align-items: flex-end; color: #fff; isolation: isolate; }
 .hero-media { position: absolute; inset: 0; z-index: -2; }
 .hero-media img { width: 100%; height: 100%; object-fit: cover; }
 .hero::before {
@@ -249,13 +249,39 @@ body.menu-open { overflow: hidden; }
 /* hero — phone tuning: smaller headline, breathing room above the fixed nav,
    full-width stacked CTAs for comfortable tap targets */
 @media (max-width: 600px){
-  .hero { min-height: 100svh; }
-  .hero-inner { padding-bottom: clamp(40px, 11vw, 64px); }
-  .hero-rating { gap: 8px; padding: 7px 12px 7px 11px; margin-bottom: 18px; }
-  .hero h1 { font-size: clamp(2.35rem, 10.5vw, 3.4rem); margin-top: .8rem; max-width: 20ch; }
+  /* cap the hero so it fits the screen comfortably instead of forcing a
+     full 100svh of mostly-empty image */
+  .hero { min-height: 80svh; }
+  .hero-inner { padding-bottom: clamp(32px, 8vw, 48px); }
+  /* hide the Google rating badge on phones — it sits at the top of the
+     bottom-aligned stack and gets clipped by the fixed nav */
+  .hero-rating { display: none; }
+  /* keep the eyebrow tagline on a single line on phones */
+  .hero .eyebrow { font-size: clamp(.5rem, 2.5vw, .66rem); letter-spacing: .12em; white-space: nowrap; }
+  .hero .eyebrow .leaf { width: 13px; height: 13px; }
+  .hero h1 { font-size: clamp(2rem, 9vw, 2.9rem); margin-top: .8rem; max-width: 20ch; }
   .hero p.hero-sub { margin-top: 1.1rem; font-size: 1.02rem; max-width: 40ch; }
   .hero-cta { margin-top: 1.7rem; gap: 10px; width: 100%; }
   .hero-cta .btn { flex: 1 1 100%; justify-content: center; }
+}
+
+/* ---- Stats band (home, directly below hero) ---- */
+.stats-band { background: var(--green-900); color: #fff; padding-block: clamp(30px, 4vw, 48px); }
+.stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: clamp(16px, 3vw, 48px); align-items: center; }
+.stats-grid .stat { position: relative; display: flex; flex-direction: column; gap: 8px; text-align: center; }
+.stats-grid .stat + .stat::before {
+  content: ""; position: absolute; left: calc(clamp(16px, 3vw, 48px) / -2);
+  top: 50%; transform: translateY(-50%); width: 1px; height: 56%;
+  background: var(--line-on-green);
+}
+.stat-num { font-family: var(--serif); font-weight: 500; font-size: clamp(2.2rem, 5vw, 3.4rem); line-height: 1; letter-spacing: -.01em; }
+.stat-num .plus { color: #fff; }
+.stat-label { font-family: var(--mono); font-size: clamp(.6rem, 1.1vw, .72rem); letter-spacing: .16em; text-transform: uppercase; color: rgba(255,255,255,.72); }
+@media (max-width: 600px){
+  .stats-band { padding-block: 26px; }
+  .stats-grid { gap: 10px; }
+  .stat-num { font-size: clamp(1.6rem, 7vw, 2.2rem); }
+  .stat-label { font-size: .56rem; letter-spacing: .08em; }
 }
 
 /* ============================================================
@@ -473,7 +499,10 @@ body.menu-open { overflow: hidden; }
    ============================================================ */
 .footer { background: var(--green); color: rgba(255,255,255,.85); padding-block: clamp(48px,6vw,80px) 28px; }
 .footer-top { display: grid; grid-template-columns: 1.3fr 1fr 1fr; gap: 40px; }
-.footer-brand img { width: 96px; background: var(--paper); border-radius: 4px; padding: 10px; }
+/* footer brand — mirror the nav logo lockup on the green footer */
+.footer-brand .brand img { width: 46px; height: 46px; object-fit: contain; background: none; border-radius: 0; padding: 0; }
+.footer-brand .brand .wordmark b { color: #fff; }
+.footer-brand .brand .wordmark span { color: rgba(255,255,255,.72); }
 .footer-brand p { margin: 18px 0 0; max-width: 30ch; color: rgba(255,255,255,.7); font-size: .96rem; }
 .foot-col h4 { font-family: var(--mono); font-weight: 500; font-size: .68rem; letter-spacing: .2em; text-transform: uppercase; color: rgba(255,255,255,.55); margin-bottom: 16px; }
 .foot-col ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 10px; }
